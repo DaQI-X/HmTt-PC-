@@ -4,9 +4,11 @@ import Vue from 'vue'
 // 导入 路由
 import VueRouter from 'vue-router'
 // 导入登录组件
-import Login from '../views/login/index.vue'
+import Login from '@/views/login/index.vue'
 // 导入首页
-import Home from '../views/Home/index.vue'
+import Home from '@/views/Home/index.vue'
+// 导入404页面
+import Four from '@/views/404/index.vue'
 // 匹配路由
 Vue.use(VueRouter)
 // 配置Vue
@@ -17,7 +19,8 @@ const router = new VueRouter({
   // 配置路由组件
   routes: [
     { name: 'login', path: '/login', component: Login },
-    { name: 'Home', path: '/', component: Home }
+    { name: 'Home', path: '/', component: Home },
+    { path: '*', name: '404', component: Four }
   ]
 })
 
