@@ -17,11 +17,37 @@ Vue.config.productionTip = false
 // 配置路由规则
 const router = new VueRouter({
   // 配置路由组件
-  routes: [
-    { name: 'login', path: '/login', component: Login },
-    { name: 'Home', path: '/', component: Home },
-    { path: '*', name: '404', component: Four }
+  routes: [{
+    name: 'login',
+    path: '/login',
+    component: Login
+  },
+  {
+    name: 'Home',
+    path: '/',
+    component: Home
+  },
+  {
+    path: '*',
+    name: '404',
+    component: Four
+  }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  console.log('ok')
+  // 获取到 sessionStorage 的 token
+  const users = window.sessionStorage.getItem('hm73-toutiao')
+  // 如果当前的位置不是 login 且 没有拿到 token 认证，返回到登录页面
+  // 重新登录 ，如果有 继续执行
+  if (to.path !== '/login' && !users) {
+    // 返回登录页面登录
+    next('/login')
+  } else {
+    // 否则 继续执行
+    next()
+  }
 })
 
 // ES6 导出语法
