@@ -3,7 +3,7 @@
     <el-aside class="my-aside" :width="collapse?'64px':'200px'">
       <div class="logo" :class="{close:collapse}"></div>
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         background-color="#002033"
         text-color="#fff"
         active-text-color="#ffd04b"
@@ -16,7 +16,7 @@
           <i class="el-icon-s-home"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-menu-item index="/cont">
+        <el-menu-item index="/article">
           <i class="el-icon-document"></i>
           <span slot="title">内容管理</span>
         </el-menu-item>
@@ -52,20 +52,22 @@
               style="vertical-align:middle"
               width="30"
               height="30"
-              src="../../assets/images/avatar.jpg"
+              :src="img"
               alt
             />
-            <b style="vertical-align:middle;padding-left:5px">黑马小哥</b>
+            <b style="vertical-align:middle;padding-left:5px">{{name}}</b>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" @click.native="sett">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" @click.native="end">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
 
-      <el-main class="main"></el-main>
+      <el-main class="main">
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -74,12 +76,29 @@
 export default {
   data () {
     return {
-      collapse: false
+      collapse: false,
+      name: '',
+      img: ''
     }
+  },
+  created () {
+    const user = JSON.parse(window.sessionStorage.getItem('hm73-toutiao'))
+    this.name = user.name
+    this.img = user.photo
   },
   methods: {
     toggleMenu () {
       this.collapse = !this.collapse
+    },
+    // 跳转到个人设置  '/setting'
+    sett () {
+      this.$router.push('/setting')
+    },
+    // 退出登录，清空 token 数据
+    end () {
+      // 删除存在当前 sessionStorage 里的 数据信息
+      window.sessionStorage.removeItem('hm73-toutiao')
+      this.$router.push('/login')
     }
   }
 }

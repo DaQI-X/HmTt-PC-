@@ -9,6 +9,10 @@ import Login from '@/views/login/index.vue'
 import Home from '@/views/Home/index.vue'
 // 导入404页面
 import Four from '@/views/404/index.vue'
+// 导入 welcome 模块
+import Welcome from '@/views/welcome/index.vue'
+// 导入 article 模块
+import Article from '@/views/article/index.vue'
 // 匹配路由
 Vue.use(VueRouter)
 // 配置Vue
@@ -23,9 +27,12 @@ const router = new VueRouter({
     component: Login
   },
   {
-    name: 'Home',
     path: '/',
-    component: Home
+    component: Home,
+    children: [
+      { name: 'Home', path: '/welcome', component: Welcome },
+      { name: 'article', path: '/article', component: Article }
+    ]
   },
   {
     path: '*',
@@ -34,7 +41,8 @@ const router = new VueRouter({
   }
   ]
 })
-
+// 功能：跳转组件，验证token
+// 路由组件的导航守位
 router.beforeEach((to, from, next) => {
   console.log('ok')
   // 获取到 sessionStorage 的 token

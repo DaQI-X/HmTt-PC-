@@ -12,6 +12,7 @@ const instance = axios.create({
 // 在请求之前，先获取token如果有正常访问，如果没有进行ajax请求，实现登录获取token
 
 // 添加 --请求拦截器--
+// 在请求之前先获取token，有的话继续执行，没有则重新登录请求token
 axios.interceptors.request.use(function (config) {
   // 在发送请求之前先获取token，
   const users = window.sessionStorage.getItem('hm73-toutiao')
@@ -28,7 +29,8 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
-// 添加响应拦截器
+// 添加响应拦截器--
+// 如果token失效或者关闭浏览器，则必须重新登录请求token
 axios.interceptors.response.use(function (response) {
   // 对响应数据做点什么
   return response
