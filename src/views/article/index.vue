@@ -2,7 +2,7 @@
   <div class="articlecont">
     <el-card class="box-card">
       <!-- 面包屑导航 -->
-      <div class="header">
+      <div slot="header">
           <!-- 插槽 -->
         <my-bread>内容管理</my-bread>
       </div>
@@ -48,20 +48,15 @@
 
     <!--  -->
     <el-card>
-      <hello-world>
-        <template slot="s1">内容1</template>
-        <template v-slot:s2="scope">内容2{{scope.test}}</template>
-      </hello-world>
+
     </el-card>
   </div>
 </template>
 
 <script>
-import MyBread from "@/components/my-bread.vue";
 
 export default {
-  components: { MyBread },
-  data() {
+  data () {
     return {
       // 提交给后台的筛选条件  传参
       // 数据默认是''还是null的区别,如果是null将不会发送字段
@@ -72,22 +67,30 @@ export default {
         end_pubdate: null
       },
       // 默认频道数据
-      channelOptions: [{ name: "Java", id: 1 }],
+      channelOptions: [],
       // 日期控件的数据
       dateValues: []
-    };
+    }
+  },
+  // 获取频道数据--
+  created () {
+    // 获取频道数据--
+    this.getChanneLo()
+  },
+  methods: {
+    // 获取频道数据--
+    async getChanneLo () {
+      // 多层解构
+      var { data: { data } } = await this.$http.get('channels')
+      this.channelOptions = data.channels
+    }
   }
-};
+}
 </script>
 
 <style scoped lang="less">
 .el-card {
   margin-bottom: 20px;
-  .el-breadcrumb {
-    border-bottom: 1px dashed #eee;
-    height: 30px;
-    margin-bottom: 20px;
-  }
   .el-form-item {
     padding-top: 5px;
   }

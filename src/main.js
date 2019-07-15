@@ -7,6 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import router from './router/index.js'
 // 导入 ax3ios 发送ajax请求
 import axios from '@/api/axios/axios.js'
+// 封装公共组件
+import comments from '@/components'
+Vue.use(comments)
 // 配置全局 axios
 Vue.prototype.$http = axios
 
