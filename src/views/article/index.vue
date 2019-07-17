@@ -21,14 +21,7 @@
         </el-form-item>
         <!-- 频道，下拉菜单 -->
         <el-form-item label="频道：">
-          <el-select v-model="reqParams.channel_id" placeholder="所有频道">
-            <el-option
-              v-for="item in channelOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+          <my-channel v-model="reqParams.channel_id"></my-channel>
         </el-form-item>
         <!-- 日期格式化 -->
         <el-form-item label="时间：">
@@ -113,29 +106,17 @@ export default {
       },
       // 文章内容数据
       articles: [],
-      // 默认频道数据
-      channelOptions: [],
       // 日期控件的数据
       dateValues: [],
       // 总条数
       total: 0
     }
   },
-  // 获取频道数据--
   created () {
-    // 获取频道数据
-    this.getChannel()
     // 获取文章内容列表
     this.getArticles()
   },
   methods: {
-    // 异步发送ajax请求，获取频道数据
-    async getChannel () {
-      const {
-        data: { data }
-      } = await this.$http.get('channels', { params: this.reqParams })
-      this.channelOptions = data.channels
-    },
     // 获取文章内容数据
     async getArticles () {
       const {
@@ -173,7 +154,7 @@ export default {
     edit (id) {
       // 路径传参用 query ；键值对传参用 params
       // this.$router.push({ path: '/publish', query: { id } }) // 路径传参
-      this.$router.push({path:'/publish',params:{id:id}})
+      this.$router.push({ path: '/publish', params: { id: id } }) // 键值对传参
     },
     // 点击搜索的时候--重新获取列表数据
     changeDate (values) {
