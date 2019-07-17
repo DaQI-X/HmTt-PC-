@@ -23,7 +23,14 @@
         </div>
       </li>
     </ul>
-    <el-pagination background layout="prev, pager, next" :total="1000"></el-pagination>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="reqParams.per_page"
+      :current-page="reqParams.page"
+      :total="total"
+      @current-change="page"
+    ></el-pagination>
   </el-card>
 </template>
 
@@ -36,7 +43,10 @@ export default {
         page: 1,
         per_page: 10
       },
-      images: []
+      // 显示图片列表数据
+      images: [],
+      // 分页总条数
+      total: 0
     }
   },
   created () {
@@ -50,10 +60,17 @@ export default {
         data: { data }
       } = await this.$http.get('user/images', { params: this.reqParams })
       this.images = data.results
+      this.total = data.total_count
     },
     // 切换收藏按钮
     search () {
       this.reqParams.page = 1
+      this.getImg()
+    },
+    // 分页获取数据
+    page (newPage) {
+      // 每点新页，显示新的数据
+      this.reqParams.page = newPage
       this.getImg()
     }
   }
