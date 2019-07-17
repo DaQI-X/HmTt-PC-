@@ -13,6 +13,8 @@ import Four from '@/views/404/index.vue'
 import Welcome from '@/views/welcome/index.vue'
 // 导入 article 模块
 import Article from '@/views/article/index.vue'
+// 导入 img素材 模块
+import Img from '@/views/img/index.vue'
 // 匹配路由
 Vue.use(VueRouter)
 // 配置Vue
@@ -31,7 +33,8 @@ const router = new VueRouter({
     component: Home,
     children: [
       { name: 'Home', path: '/welcome', component: Welcome },
-      { name: 'article', path: '/article', component: Article }
+      { name: 'article', path: '/article', component: Article },
+      { name: 'img', path: '/img', component: Img }
     ]
   },
   {
