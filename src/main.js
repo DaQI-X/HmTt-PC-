@@ -7,6 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import router from './router/index.js'
 // 导入 ax3ios 发送ajax请求
 import axios from '@/api/axios/axios.js'
+// 导入全局样式
+import '@/styles/index.less'
 // 封装公共组件
 import comments from '@/components'
 Vue.use(comments)
