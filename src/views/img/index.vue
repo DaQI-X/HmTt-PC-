@@ -34,8 +34,8 @@
       <li v-for="item in images" :key="item.id">
         <img :src="item.url" alt />
         <div class="fot" v-if="!reqParams.collect">
-          <span class="el-icon-star-off" :class="{red:item.is_collected}"></span>
-          <span class="el-icon-delete"></span>
+          <span class="el-icon-star-off" @click="toggleFav(item)" :class="{red:item.is_collected}"></span>
+          <span class="el-icon-delete" @click="del(item.id)"></span>
         </div>
       </li>
     </ul>
@@ -112,9 +112,26 @@ export default {
         this.dialogVisible = false
         // 重新更新列表内容
         this.getImg()
-        // 关闭前情况预览图片
+        // 关闭前清空预览图片
         this.imageUrl = null
       }, 1500)
+    },
+    // 收藏和取消收藏功能--
+    async toggleFav (item) {
+      // 发送ajax请求
+      const {
+        data: { data }
+      } = await this.$http.put(`user/images/${item.id}`, {
+        collect: !item.is_collected
+      })
+      this.$message.success('提交成功')
+      item.is_collected = data.collect
+    },
+    // 删除图片素材功能
+    async del (id) {
+      await this.$http.delete(`user/images/${id}`)
+      this.$message.success('删除成功')
+      this.getImg()
     }
   }
 }
